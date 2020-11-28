@@ -1,2 +1,2 @@
 # clox
-An implementation of jlox scripting language in C. Jlox is a scripting language which is implemented in Bob Nystrom's book "Crafting Interpreters"."
+An implementation of lox scripting language in C. Lox is a scripting language implemented in Bob Nystrom's book "Crafting Interpreters".
