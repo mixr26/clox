@@ -188,10 +188,9 @@ static Token number() {
 
 static Token string() {
     while (peek() != '"' && !is_at_end()) {
-        if (peek() == '\n') {
+        if (peek() == '\n')
             scanner.line++;
-            advance();
-        }
+        advance();
     }
 
     if (is_at_end())
