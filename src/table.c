@@ -141,7 +141,7 @@ Obj_string* table_find_string(Table *table, const char *chars, int length,
             // Found it.
             return entry->key;
         }
-    }
 
-    index = (index + 1) % table->capacity;
+        index = (index + 1) % table->capacity;
+    }
 }
