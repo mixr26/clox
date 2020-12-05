@@ -1,15 +1,23 @@
 #ifndef __VM_H
 #define __VM_H
 
-#include "chunk.h"
+#include "object.h"
 #include "table.h"
 #include "value.h"
 
-#define STACK_MAX 256
+#define FRAMES_MAX 64
+#define STACK_MAX (FRAMES_MAX * UINT8_COUNT)
 
 typedef struct {
-    Chunk* chunk;
+    Obj_function* function;
     uint8_t* ip;
+    Value* slots;
+} Call_frame;
+
+typedef struct {
+    Call_frame frames[FRAMES_MAX];
+    int frame_count;
+
     Value stack[STACK_MAX];
     Value* stack_top;
     Table strings;
