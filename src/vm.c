@@ -55,11 +55,19 @@ static void define_native(const char* name, Native_fn function) {
 void init_VM() {
     reset_stack();
     vm.objects = NULL;
+    vm.bytes_allocated = 0;
+    vm.next_GC = 1024 * 1024;
+
+    vm.gray_count = 0;
+    vm.gray_capacity = 0;
+    vm.gray_stack = NULL;
+
     init_table(&vm.globals);
     init_table(&vm.strings);
 
     define_native("clock", clock_native);
 }
+
 void free_VM() {
     free_table(&vm.globals);
     free_table(&vm.strings);
@@ -161,8 +169,8 @@ static bool is_falsey(Value value) {
 }
 
 static void concatenate() {
-    Obj_string* b = AS_STRING(pop());
-    Obj_string* a = AS_STRING(pop());
+    Obj_string* b = AS_STRING(peek(0));
+    Obj_string* a = AS_STRING(peek(1));
 
     int length = a->length + b->length;
     char* chars = ALLOCATE(char, length + 1);
@@ -171,6 +179,8 @@ static void concatenate() {
     chars[length] = '\0';
 
     Obj_string* result = take_string(chars, length);
+    pop();
+    pop();
     push(OBJ_VAL(result));
 }
 
